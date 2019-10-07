@@ -22,7 +22,7 @@
 
 <script>
     import ShopClusterParams from "../model/ShopClusterParams";
-    import ShopService from "../service/ShopService";
+    import ObjectService from "../service/ObjectService";
 
     export default {
         name: "google-map-component",
@@ -74,7 +74,7 @@
                 this.clearMarkers();
 
 
-                ShopService.getShops(params)
+                ObjectService.getObjects(params)
                     .then(response => {
                         console.log(response);
                         response.shops.forEach(shop => {
