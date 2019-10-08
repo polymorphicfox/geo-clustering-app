@@ -18,8 +18,19 @@ services:
     networks:
       - frontend
 
+  # Database Service
+  postgres:
+#    build: ../postgres
+    image: polymorphicfox/geo-data-db:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: halva
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    networks:
+      - backend
+
 networks:
   backend:
   frontend:
-
-  # Database Service
