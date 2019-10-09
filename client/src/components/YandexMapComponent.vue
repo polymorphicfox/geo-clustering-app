@@ -102,7 +102,7 @@
                 this.rightTop = map.getBounds()[1];
                 this.map = map;
                 this.zoomLevel = this.map.getZoom();
-                this.updateShops();
+                this.updateObjects();
             },
             addObject(e) {
                 // let newObject = {
@@ -122,7 +122,7 @@
             onBoundsChange(e) {
                 this.leftBottom = e.get('newBounds')[0];
                 this.rightTop = e.get('newBounds')[1];
-                this.updateShops();
+                this.updateObjects();
                 this.zoomLevel = this.map.getZoom();
             },
 
@@ -131,20 +131,17 @@
                     balloonContent: content
                 }, {
                     preset: 'islands#icon',
-                    iconColor: '#b62c83'
+                    iconColor: '#fb8b21'
                 })
             },
 
-            updateShops() {
+            updateObjects() {
                 let params = new ShopClusterParams(
                     this.rightTop[0],
                     this.leftBottom[1],
                     this.leftBottom[0],
                     this.rightTop[1],
-                    this.map.getZoom(),
-                    null,
-                    null,
-                    null
+                    this.map.getZoom()
                 );
                 console.log(params);
                 if (this.useBackendData){
@@ -152,9 +149,9 @@
                         .then(response => {
                             console.log(response);
                             this.map.geoObjects.removeAll();
-                            response.shops.forEach(shop => {
-                                let placemark = new ymaps.Placemark([shop.coordinates.lat, shop.coordinates.lon], {
-                                    balloonContent: shop.id + ", lat: " + shop.coordinates.lat + ", lon: " + shop.coordinates.lon
+                            response.objects.forEach(object => {
+                                let placemark = new ymaps.Placemark([object.coordinates.latitude, object.coordinates.longitude], {
+                                    balloonContent: object.id +", name: " + object.name + ", lat: " + object.coordinates.latitude + ", lon: " + object.coordinates.longitude
                                 }, {
                                     preset: 'islands#icon',
                                     iconColor: '#0095b6'
@@ -162,8 +159,8 @@
                                 this.map.geoObjects.add(placemark)
                             });
                             response.clusters.forEach(cluster => {
-                                let placemark = new ymaps.Placemark([cluster.coordinates.lat, cluster.coordinates.lon], {
-                                    iconCaption: cluster.shops_count,
+                                let placemark = new ymaps.Placemark([cluster.coordinates.latitude, cluster.coordinates.longitude], {
+                                    iconCaption: cluster.objects_count,
                                     balloonContent: this.getClusterBalloonText(cluster)
                                 }, {
                                     preset: 'islands#icon',
@@ -178,9 +175,9 @@
             },
             getClusterBalloonText(cluster) {
                 let text = "";
-                if (cluster.shops_count > 0) {
-                    cluster.shops.forEach(shopId => {
-                        text = text + shopId + "<br/>"
+                if (cluster.objects_count > 0) {
+                    cluster.objects.forEach(objectId => {
+                        text = text + objectId + "<br/>"
                     })
                 }
                 return text

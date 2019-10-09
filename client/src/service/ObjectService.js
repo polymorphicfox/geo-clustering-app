@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = '/public-api/v3/nearestStores';
+const url = '/api/v1/clustered/objects';
 
 export default class ObjectService {
     static getObjects(params) {

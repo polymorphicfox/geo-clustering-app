@@ -1,5 +1,6 @@
 package com.akos.testservice.dto;
 
+import com.akos.testservice.util.geo.LatLongPoint;
 import lombok.Data;
 
 @Data
@@ -7,9 +8,7 @@ public class GeoObjectDto {
 
     private String id;
 
-    private Double latitude;
-
-    private Double longitude;
+    private LatLongPoint coordinates;
 
     private String address;
 

@@ -3,8 +3,8 @@ module.exports = {
 
     devServer: {
         proxy: {
-            '/public-api': {
-                target: 'http://localhost:8081'
+            '/api': {
+                target: 'http://localhost:8080'
             }
         }
     },

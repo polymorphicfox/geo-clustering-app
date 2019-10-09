@@ -34,7 +34,7 @@
                 map.addListener('dragend',this.onDragend);
                 this.map = map;
             });
-            this.updateShops()
+            this.updateObjects()
         },
         data() {
             return {
@@ -53,22 +53,19 @@
 
             onZoomChanged(){
                 console.log(this.map.getZoom());
-                this.updateShops()
+                this.updateObjects()
             },
             onDragend() {
-                this.updateShops();
+                this.updateObjects();
             },
 
-            updateShops() {
+            updateObjects() {
                 let params = new ShopClusterParams(
                     this.map.getBounds().getNorthEast().lat(),
                     this.map.getBounds().getSouthWest().lng(),
                     this.map.getBounds().getSouthWest().lat(),
                     this.map.getBounds().getNorthEast().lng(),
-                    this.map.getZoom(),
-                    null,
-                    null,
-                    null
+                    this.map.getZoom()
                 );
                 console.log(params);
                 this.clearMarkers();
@@ -77,14 +74,14 @@
                 ObjectService.getObjects(params)
                     .then(response => {
                         console.log(response);
-                        response.shops.forEach(shop => {
+                        response.objects.forEach(object => {
                             var marker = new google.maps.Marker({
                                 position: {
-                                    lat: shop.coordinates.lat,
-                                    lng: shop.coordinates.lon
+                                    lat: object.coordinates.lat,
+                                    lng: object.coordinates.lon
                                 },
                                 map: this.map,
-                                title: shop.id + ", lat: " + shop.coordinates.lat + ", lon: " + shop.coordinates.lon,
+                                title: object.id + ", lat: " + object.coordinates.latitude + ", lon: " + object.coordinates.longitude,
                                 icon: {
                                     url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
                                 }
@@ -94,8 +91,8 @@
                         response.clusters.forEach(cluster => {
                             var marker = new google.maps.Marker({
                                 position: {
-                                    lat: cluster.coordinates.lat,
-                                    lng: cluster.coordinates.lon
+                                    lat: cluster.coordinates.latitude,
+                                    lng: cluster.coordinates.longitude
                                 },
                                 map: this.map,
                                 label: {
