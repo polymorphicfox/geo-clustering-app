@@ -1,12 +1,10 @@
 import axios from 'axios';
 
-const url = '/api/v1/clustered/objects';
-
 export default class ObjectService {
     static getObjects(params) {
         return new Promise(async (resolve, reject) => {
             try {
-                const response = await axios.get(url, {params: params});
+                const response = await axios.get(process.env.VUE_APP_API_CLUSTERS_ENDPOINT, {params: params});
                 const data = response.data;
                 resolve(data)
             } catch (err) {
@@ -22,7 +20,7 @@ export default class ObjectService {
                 if (object.id) {
                     // response = await axios.post(`${url}/${object.id}`, object);
                 } else {
-                    response = await axios.post(url, object);
+                    response = await axios.post(process.env.VUE_APP_API_CLUSTERS_ENDPOINT, object);
                 }
                 const data = response.data;
                 resolve(data)

@@ -3,6 +3,7 @@ package com.akos.testservice.controller;
 import com.akos.testservice.dto.GeoObjectsClusteringParams;
 import com.akos.testservice.dto.ObjectsWithClustersDto;
 import com.akos.testservice.service.ObjectClusteringService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class ObjectsClusteringController {
     }
 
     @GetMapping
+    @CrossOrigin
     public ObjectsWithClustersDto getObjectsClustered(@Valid GeoObjectsClusteringParams params) {
         return clusteringService.getObjectsWithClusters(params);
     }
